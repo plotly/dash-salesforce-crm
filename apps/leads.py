@@ -13,10 +13,10 @@ from plotly import graph_objs as go
 
 from app import app, indicator, millify, df_to_table, sf_manager
 
-states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", 
-          "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", 
-          "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", 
-          "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", 
+states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA",
+          "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+          "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+          "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
           "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
 
 
@@ -36,7 +36,7 @@ def choropleth_map(status, df):
         df = df[df["Status"] == "Closed - Not Converted"]
 
     df = df.groupby("State").count()
-    
+
     scl = [[0.0, "rgb(38, 78, 134)"], [1.0, "#0091D5"]] # colors scale
 
     data = [
@@ -131,7 +131,7 @@ def modal():
         html.Div(
             [
                 html.Div(
-                    [   
+                    [
 
                         # modal header
                         html.Div(
@@ -166,7 +166,7 @@ def modal():
                                 html.P(
                                     [
                                         "Company Name",
-                                        
+
                                     ],
                                     style={
                                         "float": "left",
@@ -365,7 +365,7 @@ layout = [
                         config=dict(displayModeBar=False),
                     ),
                 ],
-                className="four columns chart_div"
+                className="four columns chart_div pretty_container"
             ),
 
             html.Div(
@@ -377,7 +377,7 @@ layout = [
                         config=dict(displayModeBar=False),
                     ),
                 ],
-                className="four columns chart_div"
+                className="four columns chart_div pretty_container"
             ),
 
             html.Div(
@@ -389,7 +389,7 @@ layout = [
                         config=dict(displayModeBar=False),
                     ),
                 ],
-                className="four columns chart_div"
+                className="four columns chart_div pretty_container"
             ),
         ],
         className="row",
@@ -399,15 +399,10 @@ layout = [
     # table div
     html.Div(
         id="leads_table",
-        className="row",
+        className="row pretty_container",
         style={
             "maxHeight": "350px",
             "overflowY": "scroll",
-            "padding": "8",
-            "marginTop": "5",
-            "backgroundColor":"white",
-            "border": "1px solid #C8D4E3",
-            "borderRadius": "3px"
         },
     ),
 
@@ -512,7 +507,7 @@ def display_leads_modal_callback(n):
     return {"display": "none"}
 
 
-# reset to 0 add button n_clicks property 
+# reset to 0 add button n_clicks property
 @app.callback(
     Output("new_lead", "n_clicks"),
     [Input("leads_modal_close", "n_clicks"), Input("submit_new_lead", "n_clicks")],
