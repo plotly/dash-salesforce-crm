@@ -338,10 +338,10 @@ layout = [
 
 
     html.Div(
-        id="grid",
+        id="lead_grid",
         children=[
             html.Div(
-                className="two columns pretty_container dropdown",
+                className="two columns pretty_container control",
                 children=dcc.Dropdown(
                     id="converted_leads_dropdown",
                     options=[
@@ -355,7 +355,7 @@ layout = [
 
             ),
             html.Div(
-                className="two columns pretty_container dropdown",
+                className="two columns pretty_container control",
                 children=dcc.Dropdown(
                     id="lead_source_dropdown",
                     options=[
@@ -370,22 +370,11 @@ layout = [
             ),
 
             # add button
-            html.Div(
-                id="new_lead_container",
-                children=html.Span(
-                    "Add new",
-                    id="new_lead",
-                    n_clicks=0,
-                    className="button button--primary",
-                    style={
-                        "height": "34",
-                        "background": "#119DFF",
-                        "border": "1px solid #119DFF",
-                        "color": "white",
-                    },
-                ),
-                className="two columns",
-                style={"float": "right"},
+            html.Span(
+                "Add new",
+                id="new_lead",
+                n_clicks=0,
+                className="button button--primary pretty_container",
             ),
 
             html.Div(
@@ -401,8 +390,7 @@ layout = [
                 ],
             ),
             html.Div(
-                id="indicators",
-                className='row',
+                className='row indicators',
                 children=[
                     indicator(
                         "#00cc96", "Converted Leads", "left_leads_indicator"

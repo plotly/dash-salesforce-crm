@@ -23,6 +23,23 @@ body {
   box-shadow: 2px 2px 2px lightgrey;
 }
 
+input {
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 18px;
+}
+
+.button {
+  border-radius: 10px;
+  box-shadow: 4px 4px 4px lightgrey;
+  transition: box-shadow 0.5s;
+}
+
+.button:hover {
+  box-shadow: 4px 4px 4px grey;
+  transition: box-shadow 0.5s;
+}
+
 .row {
   align-items: center;
 }
@@ -40,18 +57,76 @@ body {
   padding-left: 5%
 }
 
-#grid {
+.control .Select-control {
+  border: none;
+}
+
+.modal {
+  display: block;
+  /*Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1000;
+  /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
+}
+
+.modal-content {
+  background-color: white;
+  margin: 5% auto;
+  /* 15% from the top and centered */
+  padding: 2rem;
+  width: 50%;
+  /* Could be more or less, depending on screen size */
+  color: #506784;
+  border-radius: 5px;
+}
+
+._dash-undo-redo {
+  display: none;
+}
+
+.app-title {
+  color: black;
+  font-size: 3rem;
+  letter-spacing: -.1rem;
+  vertical-align: middle
+}
+
+
+table {
+  border: 1px;
+  font-size: 1.3rem;
+  width: 100%;
+  font-family: Ubuntu;
+}
+
+#lead_grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(12, 1fr);
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.dropdown {
+.control {
   grid-column: span 2;
   align-self: end;
 }
 
-#new_lead_container {
+#new_lead {
   grid-column: 12 / 13;
   align-self: end
 }
@@ -61,10 +136,14 @@ body {
   grid-row: 2 / 7;
 }
 
-#indicators {
+#lead_grid > .indicators {
   grid-row: 2 / 3;
   grid-column: 5 / 13;
   display: flex;
+}
+
+#submit_new_lead {
+  padding: 10px
 }
 
 .indicator {
@@ -86,9 +165,80 @@ body {
   grid-column: 1 / 13;
 }
 
-table {
-  border: 1px;
-  font-size: 1.3rem;
-  width: 100%;
-  font-family: Ubuntu;
+#opportunity_grid {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+}
+
+#new_opportunity {
+  grid-column: 12 / 13;
+  align-self: end;
+}
+
+#converted_count_container {
+  grid-column: 1 / 5;
+  grid-row: 2 / 7;
+}
+
+#opportunity_indicators {
+  grid-column: 5 / 13;
+  display: flex;
+}
+
+#opportunity_heatmap {
+  grid-column: 5 / 13;
+  grid-row: 3 / 7;
+}
+
+#top_open_container {
+  grid-column: 1 / 7;
+  grid-row: 7 / 11;
+}
+
+#top_lost_container {
+  grid-column: 7 / 13;
+  grid-row: 7 / 11;
+}
+
+#cases_grid {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+}
+
+#new_case {
+  grid-column: 12 / 13;
+  align-self: end;
+}
+
+#cases_types_container {
+  grid-column: 1 / 5;
+  grid-row: 2 / 6;
+}
+
+#cases_indicators {
+  display: flex;
+  grid-column: 5 / 13;
+}
+
+#cases_reasons_container {
+  grid-column: 5 / 9;
+  grid-row: 3 / 6;
+}
+
+#cases_by_period_container {
+  grid-column: 9 / 13;
+  grid-row: 3 / 6;
+}
+
+#cases_by_account_container {
+  grid-column: 1 / 13;
+  grid-row: 6 / 10;
 }
