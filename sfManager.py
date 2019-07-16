@@ -1,3 +1,5 @@
+import os
+
 from simple_salesforce import Salesforce
 from simple_salesforce.exceptions import SalesforceExpiredSession
 import pandas as pd
@@ -131,4 +133,3 @@ class sf_Manager:
             self.login()
             self.sf.Case.create(query)
         return 0
-
