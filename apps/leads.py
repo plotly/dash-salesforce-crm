@@ -263,6 +263,9 @@ def modal():
                         ),
 
                         # submit button
+                         html.P(
+                            "note that this is just a demo application, and any new leads or opportunities you submit in this form will not be reflected.\nIn order to use the full functionality of the app, please clone the repository and place your own salesforce username, password, and API token into your environment variables.",
+                        ),
                         html.Span(
                             "Submit",
                             id="submit_new_lead",
