@@ -10,6 +10,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import plotly.plotly as py
 from plotly import graph_objs as go
+import os
 
 from app import app, indicator, millify, df_to_table, sf_manager
 
@@ -534,6 +535,8 @@ def close_modal_callback(n, n2):
     ],
 )
 def add_lead_callback(n_clicks, status, state, company, source, current_df):
+    if "DASH_PATH_ROUTING" in os.environ:
+        return current_df
     if n_clicks > 0:
         if company == "":
             company = "Not named yet"

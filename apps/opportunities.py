@@ -12,13 +12,13 @@ import dash_core_components as dcc
 import dash_html_components as html
 import plotly.plotly as py
 from plotly import graph_objs as go
-
+import os
 
 from app import app, indicator, millify, df_to_table, sf_manager
 
 
 def converted_opportunities(period, source, df):
-    df["CreatedDate"] = pd.to_datetime(df["CreatedDate"], format="%Y-%m-%d") 
+    df["CreatedDate"] = pd.to_datetime(df["CreatedDate"], format="%Y-%m-%d")
 
     # source filtering
     if source == "all_s":
@@ -38,8 +38,7 @@ def converted_opportunities(period, source, df):
         .sort_values("CreatedDate")
     )
 
-
-    # if no results were found 
+    # if no results were found
     if df.empty:
         layout = dict(annotations=[dict(text="No results found", showarrow=False)])
         return {"data": [], "layout": layout}
@@ -89,20 +88,20 @@ def heat_map_fig(df, x, y):
 
 
 # returns top 5 lost opportunities
-def top_lost_opportunities(df):
+def top_open_opportunities(df):
     df = df.sort_values("Amount", ascending=True)
     cols = ["CreatedDate", "Name", "Amount", "StageName"]
     df = df[cols].iloc[:5]
-    df["Name"] = df["Name"].apply(lambda x: x[:30]) # only display 21 characters
+    df["Name"] = df["Name"].apply(lambda x: x[:30])  # only display 21 characters
     return df_to_table(df)
 
 
 # returns top 5 lost opportunities
 def top_lost_opportunities(df):
-    df = df[df["StageName"] == 'Closed Lost']
+    df = df[df["StageName"] == "Closed Lost"]
     cols = ["CreatedDate", "Name", "Amount", "StageName"]
     df = df[cols].sort_values("Amount", ascending=False).iloc[:5]
-    df["Name"] = df["Name"].apply(lambda x: x[:30]) # only display 21 characters
+    df["Name"] = df["Name"].apply(lambda x: x[:30])  # only display 21 characters
     return df_to_table(df)
 
 
@@ -113,7 +112,6 @@ def modal():
             [
                 html.Div(
                     [
-
                         # modal header
                         html.Div(
                             [
@@ -140,19 +138,14 @@ def modal():
                             className="row",
                             style={"borderBottom": "1px solid #C8D4E3"},
                         ),
-
-
-                        # modal form 
+                        # modal form
                         html.Div(
                             [
-
                                 # left div
                                 html.Div(
                                     [
                                         html.P(
-                                            [
-                                                "Name"
-                                            ],
+                                            ["Name"],
                                             style={
                                                 "float": "left",
                                                 "marginTop": "4",
@@ -167,11 +160,8 @@ def modal():
                                             value="",
                                             style={"width": "100%"},
                                         ),
-
                                         html.P(
-                                            [
-                                                "StageName"
-                                            ],
+                                            ["StageName"],
                                             style={
                                                 "textAlign": "left",
                                                 "marginBottom": "2",
@@ -225,7 +215,6 @@ def modal():
                                             clearable=False,
                                             value="Prospecting",
                                         ),
-
                                         html.P(
                                             "Source",
                                             style={
@@ -254,11 +243,8 @@ def modal():
                                             ],
                                             value="Web",
                                         ),
-
                                         html.P(
-                                            [
-                                                "Close Date"
-                                            ],
+                                            ["Close Date"],
                                             style={
                                                 "textAlign": "left",
                                                 "marginBottom": "2",
@@ -275,13 +261,10 @@ def modal():
                                             ),
                                             style={"textAlign": "left"},
                                         ),
-
                                     ],
                                     className="six columns",
                                     style={"paddingRight": "15"},
                                 ),
-
-                                
                                 # right div
                                 html.Div(
                                     [
@@ -315,7 +298,6 @@ def modal():
                                             ],
                                             value="New Customer",
                                         ),
-
                                         html.P(
                                             "Amount",
                                             style={
@@ -331,7 +313,6 @@ def modal():
                                             value="",
                                             style={"width": "100%"},
                                         ),
-
                                         html.P(
                                             "Probability",
                                             style={
@@ -349,7 +330,6 @@ def modal():
                                             value="",
                                             style={"width": "100%"},
                                         ),
-
                                     ],
                                     className="six columns",
                                     style={"paddingLeft": "15"},
@@ -358,14 +338,15 @@ def modal():
                             className="row",
                             style={"paddingTop": "2%"},
                         ),
-
-
                         # submit button
+                        html.P(
+                            children="note that this is just a demo application, and any new leads or opportunities you submit in this form will not be reflected.\nIn order to use the full functionality of the app, please clone the repository and place your own salesforce username, password, and API token into your environment variables.",
+                        ),
                         html.Span(
                             "Submit",
                             id="submit_new_opportunity",
                             n_clicks=0,
-                            className="button button--primary add"
+                            className="button button--primary add",
                         ),
                     ],
                     className="modal-content",
@@ -380,7 +361,6 @@ def modal():
 
 
 layout = [
-
     # top controls
     html.Div(
         [
@@ -397,7 +377,6 @@ layout = [
                 ),
                 className="two columns",
             ),
-
             html.Div(
                 dcc.Dropdown(
                     id="heatmap_dropdown",
@@ -429,14 +408,13 @@ layout = [
                 ),
                 className="two columns",
             ),
-
-            #add button
+            # add button
             html.Div(
                 html.Span(
                     "Add new",
                     id="new_opportunity",
                     n_clicks=0,
-                    className="button button--primary add"
+                    className="button button--primary add",
                 ),
                 className="two columns",
                 style={"float": "right"},
@@ -445,30 +423,18 @@ layout = [
         className="row",
         style={"marginBottom": "10"},
     ),
-
-    #indicators row
+    # indicators row
     html.Div(
         [
+            indicator("#00cc96", "Won opportunities", "left_opportunities_indicator"),
             indicator(
-                "#00cc96",
-                "Won opportunities",
-                "left_opportunities_indicator",
+                "#119DFF", "Open opportunities", "middle_opportunities_indicator"
             ),
-            indicator(
-                "#119DFF",
-                "Open opportunities",
-                "middle_opportunities_indicator",
-            ),
-            indicator(
-                "#EF553B",
-                "Lost opportunities",
-                "right_opportunities_indicator",
-            ),
+            indicator("#EF553B", "Lost opportunities", "right_opportunities_indicator"),
         ],
         className="row",
     ),
-
-    #charts row div 
+    # charts row div
     html.Div(
         [
             html.Div(
@@ -481,8 +447,7 @@ layout = [
                     ),
                 ],
                 className="four columns chart_div",
-                ),
-
+            ),
             html.Div(
                 [
                     html.P("Probabilty heatmap per Stage and Type"),
@@ -492,14 +457,12 @@ layout = [
                         config=dict(displayModeBar=False),
                     ),
                 ],
-                className="eight columns chart_div"
+                className="eight columns chart_div",
             ),
         ],
         className="row",
-        style={"marginTop": "5px"}
+        style={"marginTop": "5px"},
     ),
-
-
     # tables row div
     html.Div(
         [
@@ -518,7 +481,6 @@ layout = [
                         id="top_open_opportunities",
                         style={"padding": "0px 13px 5px 13px", "marginBottom": "5"},
                     ),
-                   
                 ],
                 className="six columns",
                 style={
@@ -543,7 +505,7 @@ layout = [
                     html.Div(
                         id="top_lost_opportunities",
                         style={"padding": "0px 13px 5px 13px", "marginBottom": "5"},
-                    )
+                    ),
                 ],
                 className="six columns",
                 style={
@@ -554,8 +516,6 @@ layout = [
                     "overflowY": "scroll",
                 },
             ),
-
-            
             modal(),
         ],
         className="row",
@@ -617,9 +577,7 @@ def left_opportunities_indicator_callback(df):
 )
 def middle_opportunities_indicator_callback(df):
     df = pd.read_json(df, orient="split")
-    active = millify(
-        str(df[(df["IsClosed"] == 0)]["Amount"].sum())
-    )
+    active = millify(str(df[(df["IsClosed"] == 0)]["Amount"].sum()))
     return active
 
 
@@ -630,13 +588,7 @@ def middle_opportunities_indicator_callback(df):
 )
 def right_opportunities_indicator_callback(df):
     df = pd.read_json(df, orient="split")
-    lost = millify(
-        str(
-            df[
-                (df["IsWon"] == 0) & (df["IsClosed"] == 1)
-            ]["Amount"].sum()
-        )
-    )
+    lost = millify(str(df[(df["IsWon"] == 0) & (df["IsClosed"] == 1)]["Amount"].sum()))
     return lost
 
 
@@ -680,6 +632,9 @@ def close_modal_callback(n, n2):
 def add_opportunity_callback(
     n_clicks, name, stage, amount, probability, date, o_type, source, current_df
 ):
+    if "DASH_PATH_ROUTING" in os.environ:
+        return current_df
+        
     if n_clicks > 0:
         if name == "":
             name = "Not named yet"
@@ -693,7 +648,7 @@ def add_opportunity_callback(
             "LeadSource": source,
         }
 
-        sf_manager.add_opportunity(query) 
+        sf_manager.add_opportunity(query)
 
         df = sf_manager.get_opportunities()
 
@@ -710,7 +665,6 @@ def add_opportunity_callback(
 def top_open_opportunities_callback(df):
     df = pd.read_json(df, orient="split")
     return top_open_opportunities(df)
-
 
 
 # updates top lost opportunities based on df updates

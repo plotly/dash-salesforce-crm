@@ -10,6 +10,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import plotly.plotly as py
 from plotly import graph_objs as go
+import os
 
 from app import app, indicator, millify, df_to_table, sf_manager
 
@@ -719,6 +720,8 @@ def close_modal_callback(n, n2):
 def add_case_callback(
     n_clicks, account_id, origin, reason, subject, contact_id, case_type, status, description, priority, current_df
     ):
+    if "DASH_PATH_ROUTING" in os.environ:
+        return current_df
     if n_clicks > 0:
         query = {
             "AccountId": account_id,
